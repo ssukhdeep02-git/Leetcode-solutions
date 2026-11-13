@@ -11,10 +11,10 @@ public:
        while(x)
        {
             remainder = x%10;
-            reversed = reversed * 10 + remainder;
+            reversed = (reversed * 10) + remainder;
             x=x/10;
        }
 
-       return original == reversed ? 1:0;
+       return original == reversed;
     }
 };
