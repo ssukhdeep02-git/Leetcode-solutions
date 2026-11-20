@@ -3,8 +3,7 @@ class Solution {
 
     int helper(int n)
     {
-        if(n==0)
-        return 0;
+        if(n==0) return 0;
 
         if(dp[n] != -1)
         return dp[n];
@@ -21,7 +20,7 @@ class Solution {
     }
 public:
     int numSquares(int n) {
-        dp.assign(n+1, -1);
+        dp.assign(n+1,-1);
         return helper(n);
     }
 };
