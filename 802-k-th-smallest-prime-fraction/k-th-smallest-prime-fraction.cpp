@@ -1,29 +1,45 @@
 class Solution {
 public:
+    typedef vector<double> v; 
+
     vector<int> kthSmallestPrimeFraction(vector<int>& arr, int k) {
-        //using max heap maintaining the size k
-        priority_queue <vector<double>> pq; //{double, arr[i], arr[j]}
+        //using min heap for the optimal solution
+
+        priority_queue <v, vector<v>, greater<v>> pq; ///{fraction, i, j}
 
         int n = arr.size();
 
-        for(int i=0; i<n-1; i++)
+        for(int i=0; i<n; i++)
         {
-            for(int j=i+1; j<n; j++)
-            {
-                double fraction = (double)arr[i]/arr[j];
-                pq.push({fraction, (double)arr[i], (double)arr[j]});
+            //first pushing all the numerators divide by the last element to get the smallest
 
-                if(pq.size() > k)
-                pq.pop();
-            }
+            pq.push({1.0*arr[i]/arr[n-1], (double)i, (double)n-1}); //*1.0 to convert to double
         }
 
-        auto vec = pq.top();
-        vector <int> res(2);
+        int smallest = 1;
+        ///got the first smallest at the top of pq
 
-        res[0] = vec[1];
-        res[1] = vec[2];
+        while(smallest < k)
+        {
+            v vec = pq.top();
+            pq.pop();
 
-        return res;
+            int i = vec[1];
+            int j = vec[2] - 1; //to get the second smallest among the pq elements
+
+            pq.push({1.0*arr[i]/arr[j], (double)i, (double)j});
+
+            smallest++; //we will get smallest one by one in every iteration of while
+        }
+
+        //when smallest = k, loop will terminate
+
+        v vec = pq.top();
+        pq.pop();
+
+        int i = vec[1];
+        int j = vec[2];
+
+        return {arr[i], arr[j]};
     }
 };
